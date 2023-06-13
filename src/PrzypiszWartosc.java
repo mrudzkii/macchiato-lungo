@@ -22,19 +22,14 @@ public class PrzypiszWartosc extends Instrukcja{
 
 
     @Override
-    protected boolean uruchom(Vector<Zmienna> zmienne) throws  DzieleniePrzezZeroException, BrakZmiennejException{
+    protected boolean uruchom(Zmienne zmienne) throws  DzieleniePrzezZeroException, BrakZmiennejException{
         int wartosc = wyrazenie.wylicz(zmienne);
-        for(Zmienna zmienna : zmienne){
-            if (zmienna.getNazwa() == this.nazwa) {
-                zmienna.ustawWartosc(wartosc);
-                return true;
-            }
-        }
-        throw new BrakZmiennejException("Nie znaleziono zmiennej " + nazwa + " do przypisania wartosci");
+        zmienne.przypiszWartosc(nazwa, wartosc);
+        return true;
     }
 
     @Override
-    protected boolean wykonaj(Vector<Zmienna> zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected boolean wykonaj(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         return true;
     }
 }

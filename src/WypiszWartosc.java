@@ -10,18 +10,13 @@ public class WypiszWartosc extends Instrukcja{
     }
 
     @Override
-    protected boolean uruchom (Vector<Zmienna> zmienne) throws BrakZmiennejException{
-        for(Zmienna zmienna : zmienne){
-            if(zmienna.getNazwa() == nazwa){
-                System.out.println(zmienna.getWartosc());
-                return true;
-            }
-        }
-        throw new BrakZmiennejException("Nie znaleziono zmiennej '" + nazwa + "' do wypisania");
+    protected boolean uruchom (Zmienne zmienne) throws BrakZmiennejException{
+        zmienne.wypiszWartosc(nazwa);
+        return true;
     }
 
     @Override
-    protected boolean wykonaj(Vector<Zmienna> zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected boolean wykonaj(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         return true;
     }
 }

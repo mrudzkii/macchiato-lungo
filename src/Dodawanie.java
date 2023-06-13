@@ -31,23 +31,14 @@ public class Dodawanie extends Wyrazenie{
         this.nrKonstruktora = 3;
     }
 
-    private Zmienna znajdzZmienna(char nazwa, Vector<Zmienna> zmienne) throws BrakZmiennejException{
-        int i = 0;
-        while (i < zmienne.size() && zmienne.elementAt(i).getNazwa() != nazwa){
-            i++;
-        }
-        if(i >= zmienne.size()) throw new BrakZmiennejException("Nie znaleziono zmiennej " + nazwa);
-        return zmienne.elementAt(i);
-    }
-
     @Override
-    protected int wylicz(Vector<Zmienna> zmienne) throws DzieleniePrzezZeroException, BrakZmiennejException {
+    protected int wylicz(Zmienne zmienne) throws DzieleniePrzezZeroException, BrakZmiennejException {
         int tmp1;
         if(nrKonstruktora == 0 || nrKonstruktora == 1) tmp1 = wyr1.wylicz(zmienne);
-        else tmp1 = znajdzZmienna(zmienna1, zmienne).wylicz(zmienne);
+        else tmp1 = zmienne.wartosc(zmienna1);
         int tmp2;
         if(nrKonstruktora == 0 || nrKonstruktora == 2) tmp2 = wyr2.wylicz(zmienne);
-        else tmp2 = znajdzZmienna(zmienna2, zmienne).wylicz(zmienne);
+        else tmp2 = zmienne.wartosc(zmienna2);
         return tmp1 + tmp2;
     }
 }

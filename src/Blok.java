@@ -6,6 +6,11 @@ public class Blok extends Instrukcja{
     protected Blok poprzedniBlok;
     protected int ktoraInstrukcja;
 
+    @Override
+    public Zmienne getZmienne() {
+        return super.getZmienne();
+    }
+
     public int getKtoraInstrukcja() {
         return ktoraInstrukcja;
     }
@@ -23,7 +28,7 @@ public class Blok extends Instrukcja{
 
     public Blok(Program program) {
         this.nazwaInstrukcji = "Blok";
-        zmienne = new Vector<Zmienna>();
+        zmienne = new Zmienne();
         instrukcje = new Vector<Instrukcja>();
         zadeklarowaneZmienne = new Vector<Pair<Character, Wyrazenie>>();
         zadeklarowaneWczesniejZmienne = new Vector<Pair<Character, Wyrazenie>>();
@@ -54,16 +59,7 @@ public class Blok extends Instrukcja{
 
     @Override
     public void wypiszWartosci(){
-        for (Zmienna zmienna : zmienne){
-            System.out.println(zmienna.getNazwa() + " = " + zmienna.getWartosc());
-        }
-    }
-
-    public void dodajZmienna (char nazwa, int wartosc) throws PodwojnaDekleracjaExcepion {
-        for(Zmienna zmienna : zmienne){
-            if(zmienna.getNazwa() == nazwa) throw new PodwojnaDekleracjaExcepion("Podwojna deklaracja zmiennej " + nazwa);
-        }
-        zmienne.add(new Zmienna(nazwa, wartosc));
+        zmienne.wypiszWartosci();
     }
 
     protected boolean czyVectorZawiera(Vector<Zmienna> wektor, Zmienna zmienna){
@@ -85,7 +81,7 @@ public class Blok extends Instrukcja{
                 return false;
             }
             try{
-                dodajZmienna(para.getFirst(), wartosc);
+                zmienne.dodajZmienna(para.getFirst(), wartosc);
             } catch (PodwojnaDekleracjaExcepion e){
                 System.out.println("Błąd w instrukcji DeklaracjaZmiennej");
                 wypiszWartosci();
@@ -94,15 +90,15 @@ public class Blok extends Instrukcja{
             }
         }
         if (poprzedniBlok != null){
-            for(Zmienna zmienna : poprzedniBlok.getZmienne()){
-                if(!czyZadeklarowana(zmienna.getNazwa()) && !czyVectorZawiera(zmienne, zmienna)) zmienne.add(zmienna);
+            for(Zmienna zmienna : poprzedniBlok.getZmienne().getVector()){
+                if(!czyZadeklarowana(zmienna.getNazwa()) && !zmienne.czyZawiera(zmienna)) zmienne.dodajZmienna(zmienna);
             }
         }
         zadeklarowaneZmienne.clear();
         return true;
     }
     @Override
-    protected boolean wykonaj(Vector<Zmienna> zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
+    protected boolean wykonaj(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
         boolean wykonano = zainicjalizuj();
         if(!wykonano) return false;
         wykonano = false;
@@ -124,12 +120,12 @@ public class Blok extends Instrukcja{
     }
 
     @Override
-    protected boolean uruchom(Vector<Zmienna> zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected boolean uruchom(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         return wykonaj(zmienne);
     }
 
     @Override
-    protected int step(Vector<Zmienna> zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
+    protected int step(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
         int wykonano;
         if(ktoraInstrukcja < 0){
             if (!zainicjalizuj()) {

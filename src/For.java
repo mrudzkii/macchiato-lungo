@@ -28,20 +28,6 @@ public class For extends Blok{
         new PrzypiszWartosc(program, zmienna, new Dodawanie(zmienna, new Literal(1)));
     }
 
-    private Zmienna znajdzZmienna(char nazwa) throws BrakZmiennejException{
-        int i = 0;
-        while (i < zmienne.size() && zmienne.elementAt(i).getNazwa() != nazwa){
-            i++;
-        }
-        if(i >= zmienne.size()){
-            for(Zmienna zmienna : zmienne){
-                System.out.println(zmienna.getNazwa() + " = " + zmienna.getWartosc());
-            }
-            throw new BrakZmiennejException("Nie znaleziono zmiennej " + nazwa);
-        }
-        return zmienne.elementAt(i);
-    }
-
     private boolean zainicjalizuj(){
         int wartosc;
         for (Pair<Character, Wyrazenie> para : zadeklarowaneZmienne){
@@ -54,7 +40,7 @@ public class For extends Blok{
                 return false;
             }
             try{
-                dodajZmienna(para.getFirst(), wartosc);
+                zmienne.dodajZmienna(para.getFirst(), wartosc);
             } catch (PodwojnaDekleracjaExcepion e){
                 System.out.println("Błąd w instrukcji DeklaracjaZmiennej");
                 wypiszWartosci();
@@ -62,11 +48,10 @@ public class For extends Blok{
                 return false;
             }
             if(para.getFirst() == zmienna)
-                iterator = zmienne.lastElement();
+                iterator = zmienne.ostatnioDodana();
         }
-
-        for(Zmienna zmienna : poprzedniBlok.getZmienne()){
-            if(!czyZadeklarowana(zmienna.getNazwa()) && !czyVectorZawiera(zmienne, zmienna)) zmienne.add(zmienna);
+        for(Zmienna zmienna : poprzedniBlok.getZmienne().getVector()){
+            if(!czyZadeklarowana(zmienna.getNazwa()) && !zmienne.czyZawiera(zmienna)) zmienne.dodajZmienna(zmienna);
         }
         zadeklarowaneZmienne.clear();
         if(wyrazenie != null)
@@ -82,7 +67,7 @@ public class For extends Blok{
         }
         else {
             try {
-                ileRazy = znajdzZmienna(zmiennaKoniecZakresu).getWartosc();
+                ileRazy = zmienne.wartosc(zmiennaKoniecZakresu);
             } catch (BrakZmiennejException e){
                 System.out.println("Błąd w instrukcji DeklaracjaZmiennej");
                 wypiszWartosci();
@@ -94,7 +79,7 @@ public class For extends Blok{
     }
 
     @Override
-    protected boolean wykonaj(Vector<Zmienna> zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected boolean wykonaj(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         boolean wykonano;
         wykonano = zainicjalizuj();
         if(!wykonano) return false;
@@ -119,7 +104,7 @@ public class For extends Blok{
     }
 
     @Override
-    protected int step(Vector<Zmienna> zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected int step(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         int wykonano;
         if(ktoraInstrukcja < 0){
             if (!zainicjalizuj()) {

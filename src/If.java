@@ -62,10 +62,10 @@ public class If extends Blok {
         if(wyr1 != null) wart1 = wyr1.wylicz(zmienne);
         if(wyr2 != null) wart2 = wyr2.wylicz(zmienne);
         if(zmienna1 != ' '){
-            wart1 = znajdzZmienna(zmienna1, zmienne).wylicz(zmienne);
+            wart1 = zmienne.wartosc(zmienna1);
         }
         if(zmienna2 != ' '){
-            wart2 = znajdzZmienna(zmienna2, zmienne).wylicz(zmienne);
+            wart2 = zmienne.wartosc(zmienna2);
         }
         czyWykonywac = czyWykonac();
     }
@@ -100,7 +100,7 @@ public class If extends Blok {
         return false;
     }
     @Override
-    public boolean wykonaj(Vector<Zmienna> zmienneUseless) throws DzieleniePrzezZeroException, BrakZmiennejException, PodwojnaDekleracjaExcepion{
+    public boolean wykonaj(Zmienne zmienneUseless) throws DzieleniePrzezZeroException, BrakZmiennejException, PodwojnaDekleracjaExcepion{
         zainicjalizuj();
         if(czyWykonywac){
             for(Instrukcja i : instrukcje) i.uruchom(zmienne);
@@ -109,12 +109,12 @@ public class If extends Blok {
     }
 
     @Override
-    protected boolean uruchom(Vector<Zmienna> zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected boolean uruchom(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         return wykonaj(zmienne);
     }
 
     @Override
-    protected int step(Vector<Zmienna> zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected int step(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         int wykonano;
         if(ktoraInstrukcja < 0) {
             zainicjalizuj();

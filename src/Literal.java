@@ -8,7 +8,7 @@ public class Literal extends Wyrazenie{
     }
 
     @Override
-    protected int wylicz(Vector<Zmienna> zmienne) {
+    protected int wylicz(Zmienne zmienne) {
         return wartosc;
     }
 }

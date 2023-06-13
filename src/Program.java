@@ -13,8 +13,6 @@ public class Program {
         if(bloki.size() == 1) {
             zewnetrzny = blok;
         }
-//        dodajInstrukcje(blok);
-//        System.out.println("dodano blok");
     }
 
     public Vector<Blok> getBloki() {
@@ -23,11 +21,7 @@ public class Program {
 
     public void endBlock(){
         if(bloki.size() > 1) {
-//            Blok przedostatni = bloki.elementAt(bloki.indexOf(bloki.lastElement())-1);
             Blok ostatni = bloki.lastElement();
-//            for(Instrukcja i : ostatni.getInstrukcje()){
-//                przedostatni.dodajInstrukcje(i);
-//            }
             bloki.remove(bloki.lastElement());
             bloki.lastElement().dodajInstrukcje(ostatni);
         }
@@ -45,7 +39,7 @@ public class Program {
     public void uruchomBezDebugowania(){
         boolean wykonano;
             try {
-                wykonano = zewnetrzny.wykonaj(new Vector<>());
+                wykonano = zewnetrzny.wykonaj(new Zmienne());
                 zewnetrzny.wypiszWartosci();
 
             } catch (BrakZmiennejException | DzieleniePrzezZeroException | PodwojnaDekleracjaExcepion e) {
@@ -71,7 +65,7 @@ public class Program {
                     }
                     while (parametr > 0) {
                         try {
-                            wynik = zewnetrzny.step(new Vector<>());
+                            wynik = zewnetrzny.step(new Zmienne());
                             if(zewnetrzny.getKtoraInstrukcja() == zewnetrzny.getInstrukcje().size())
                                 zewnetrzny.wypiszWartosci();
                         } catch (BrakZmiennejException | DzieleniePrzezZeroException | PodwojnaDekleracjaExcepion e) {
@@ -102,7 +96,7 @@ public class Program {
                     }
                     while (zewnetrzny.ktoraInstrukcja < zewnetrzny.getInstrukcje().size()){
                         try {
-                            wynik = zewnetrzny.step(new Vector<>());
+                            wynik = zewnetrzny.step(new Zmienne());
                             if(zewnetrzny.getKtoraInstrukcja() == zewnetrzny.getInstrukcje().size())
                                 zewnetrzny.wypiszWartosci();
                         } catch (BrakZmiennejException | DzieleniePrzezZeroException | PodwojnaDekleracjaExcepion e) {

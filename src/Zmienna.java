@@ -27,11 +27,8 @@ public class Zmienna extends Wyrazenie {
     }
 
     @Override
-    protected int wylicz(Vector<Zmienna> zmienne) throws BrakZmiennejException {
-        for(Zmienna z : zmienne){
-            if(z.getNazwa() == this.nazwa) return wartosc;
-        }
-        throw new BrakZmiennejException("Nie znaleziono zmiennej " + this.nazwa);
+    protected int wylicz(Zmienne zmienne) throws BrakZmiennejException {
+        return zmienne.wartosc(nazwa);
     }
 
     public void ustawWartosc(int wartosc){
