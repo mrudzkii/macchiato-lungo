@@ -13,22 +13,37 @@ public class Odejmowanie extends Wyrazenie {
         this.nrKonstruktora = 0;
     }
 
+    public static Odejmowanie wyrazen(Wyrazenie wyr1, Wyrazenie wyr2) {
+        return new Odejmowanie(wyr1, wyr2);
+    }
+
     public Odejmowanie(Wyrazenie wyr, char zmienna) {
         this.wyr1 = wyr;
         this.zmienna2 = zmienna;
         this.nrKonstruktora = 1;
     }
 
+    public static Odejmowanie wyrazen(Wyrazenie wyr, char zmienna){
+        return new Odejmowanie(wyr, zmienna);
+    }
     public Odejmowanie(char zmienna, Wyrazenie wyrazenie){
         this.zmienna1 = zmienna;
         this.wyr2 = wyrazenie;
         this.nrKonstruktora = 2;
     }
 
+    public static Odejmowanie wyrazen(char zmienna, Wyrazenie wyrazenie){
+        return new Odejmowanie(zmienna, wyrazenie);
+    }
+
     public Odejmowanie(char zmienna1, char zmienna2){
         this.zmienna1 = zmienna1;
         this.zmienna2 = zmienna2;
         this.nrKonstruktora = 3;
+    }
+
+    public static Odejmowanie wyrazen(char zmienna1, char zmienna2){
+        return new Odejmowanie(zmienna1, zmienna2);
     }
 
     @Override

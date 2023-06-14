@@ -2,11 +2,11 @@ import java.util.Vector;
 
 public class WypiszWartosc extends Instrukcja{
     char nazwa;
-    public WypiszWartosc(Program program, char nazwa) {
+    public WypiszWartosc(char nazwa) {
         this.nazwaInstrukcji = "WypiszWartosc";
         this.nazwa = nazwa;
-        glebokosc = program.getBloki().lastElement().glebokosc;
-        program.dodajInstrukcje(this);
+//        glebokosc = program.getBloki().lastElement().glebokosc;
+//        program.dodajInstrukcje(this);
     }
 
     @Override

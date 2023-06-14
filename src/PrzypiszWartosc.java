@@ -4,20 +4,20 @@ public class PrzypiszWartosc extends Instrukcja{
     private Zmienna zmiennej;
     private Wyrazenie wyrazenie;
 
-    public PrzypiszWartosc(Program program, char nazwa, Wyrazenie wyrazenie) {
+    public PrzypiszWartosc(char nazwa, Wyrazenie wyrazenie) {
         this.nazwaInstrukcji = "PrzypiszWartosc";
         this.nazwa = nazwa;
         this.wyrazenie = wyrazenie;
-        glebokosc = program.getBloki().lastElement().glebokosc;
-        program.dodajInstrukcje(this);
+//        glebokosc = program.getBloki().lastElement().glebokosc;
+//        program.dodajInstrukcje(this);
     }
 
-    public PrzypiszWartosc(Program program, char nazwa, Zmienna zmiennej) {
+    public PrzypiszWartosc(char nazwa, Zmienna zmiennej) {
         this.nazwaInstrukcji = "PrzypiszWartosc";
         this.nazwa = nazwa;
         this.zmiennej = zmiennej;
-        glebokosc = program.getBloki().lastElement().glebokosc;
-        program.dodajInstrukcje(this);
+//        glebokosc = program.getBloki().lastElement().glebokosc;
+//        program.dodajInstrukcje(this);
     }
 
 

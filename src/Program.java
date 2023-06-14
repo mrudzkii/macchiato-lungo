@@ -8,6 +8,10 @@ public class Program {
         bloki = new Vector<Blok>();
     }
 
+    public Program(Blok mainBlok){
+        zewnetrzny = mainBlok;
+    }
+
     public void beginBlock(Blok blok){
         bloki.add(blok);
         if(bloki.size() == 1) {

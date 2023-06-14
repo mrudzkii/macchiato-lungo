@@ -9,7 +9,7 @@ public class DeklaracjaZmiennej extends Instrukcja{
         this.wyr = wyr;
         program.deklaracjaZmiennej(nazwa, wyr);
         glebokosc = program.getBloki().lastElement().glebokosc;
-        new PrzypiszWartosc(program, nazwa, wyr);
+        new PrzypiszWartosc(nazwa, wyr);
     }
 
     @Override

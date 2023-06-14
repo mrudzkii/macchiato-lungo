@@ -3,6 +3,7 @@ public class Blok extends Instrukcja{
     protected Vector<Instrukcja> instrukcje;
     protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneZmienne;
     protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneWczesniejZmienne;
+    protected Zmienne wczesniejszeZmienne;
     protected Blok poprzedniBlok;
     protected int ktoraInstrukcja;
 
@@ -26,26 +27,35 @@ public class Blok extends Instrukcja{
     protected char zmienna1 = ' ';
     protected char zmienna2 = ' ';
 
-    public Blok(Program program) {
+    public Blok() {
         this.nazwaInstrukcji = "Blok";
         zmienne = new Zmienne();
-        instrukcje = new Vector<Instrukcja>();
-        zadeklarowaneZmienne = new Vector<Pair<Character, Wyrazenie>>();
-        zadeklarowaneWczesniejZmienne = new Vector<Pair<Character, Wyrazenie>>();
-        if(program.getBloki().size() > 0){
-            glebokosc = program.getBloki().lastElement().glebokosc + 1;
-            poprzedniBlok = program.getBloki().lastElement();
-            zadeklarowaneWczesniejZmienne = poprzedniBlok.zadeklarowaneZmienne;
-        }else{
-            glebokosc = 1;
-        }
+        instrukcje = new Vector<>();
+        zadeklarowaneZmienne = new Vector<>();
+//        if(program.getBloki().size() > 0){
+//            glebokosc = program.getBloki().lastElement().glebokosc + 1;
+//            poprzedniBlok = program.getBloki().lastElement();
+//            zadeklarowaneWczesniejZmienne = poprzedniBlok.zadeklarowaneZmienne;
+//        }else{
+//            glebokosc = 1;
+//        }
         ktoraInstrukcja = -1;
-        program.beginBlock(this);
+//        program.beginBlock(this);
+    }
+
+    public Blok(Vector<Instrukcja> instrukcje, Vector<Pair<Character, Wyrazenie>> zadeklarowaneZmienne){
+        this.instrukcje = instrukcje;
+        this.zadeklarowaneZmienne = zadeklarowaneZmienne;
+        this.nazwaInstrukcji = "Blok";
+        zmienne = new Zmienne();
+        this.nazwaInstrukcji = "Blok";
+        ktoraInstrukcja = -1;
     }
 
     public void deklaracjaZmiennej(char nazwa, Wyrazenie wartosc){
         zadeklarowaneZmienne.add(new Pair<Character, Wyrazenie>(nazwa, wartosc));
     }
+
 
     protected boolean czyZadeklarowana(char zmienna){
         for(Pair<Character, Wyrazenie> para : zadeklarowaneZmienne){
@@ -62,23 +72,32 @@ public class Blok extends Instrukcja{
         zmienne.wypiszWartosci();
     }
 
-    protected boolean czyVectorZawiera(Vector<Zmienna> wektor, Zmienna zmienna){
-        for(Zmienna element : wektor){
-            if (element == zmienna) return true;
-        }
-        return false;
-    }
+//    protected boolean czyVectorZawiera(Vector<Zmienna> wektor, Zmienna zmienna){
+//        for(Zmienna element : wektor){
+//            if (element == zmienna) return true;
+//        }
+//        return false;
+//    }
 
     private boolean zainicjalizuj(){
         int wartosc = 0;
         for (Pair<Character, Wyrazenie> para : zadeklarowaneZmienne){
             try{
                 wartosc = para.getSecond().wylicz(zmienne);
-            } catch (DzieleniePrzezZeroException | BrakZmiennejException e){
+            } catch (DzieleniePrzezZeroException e){
                 System.out.println("Błąd w instrukcji DeklaracjaZmiennej");
                 wypiszWartosci();
                 e.printStackTrace();
                 return false;
+            } catch (BrakZmiennejException e){
+                try {
+                    wartosc = para.getSecond().wylicz(wczesniejszeZmienne);
+                } catch (DzieleniePrzezZeroException | BrakZmiennejException e1){
+                    System.out.println("Błąd w instrukcji DeklaracjaZmiennej");
+                    wypiszWartosci();
+                    e1.printStackTrace();
+                    return false;
+                }
             }
             try{
                 zmienne.dodajZmienna(para.getFirst(), wartosc);
@@ -89,16 +108,15 @@ public class Blok extends Instrukcja{
                 return false;
             }
         }
-        if (poprzedniBlok != null){
-            for(Zmienna zmienna : poprzedniBlok.getZmienne().getVector()){
-                if(!czyZadeklarowana(zmienna.getNazwa()) && !zmienne.czyZawiera(zmienna)) zmienne.dodajZmienna(zmienna);
-            }
+        for(Zmienna zmienna : wczesniejszeZmienne.getVector()){
+            if(!czyZadeklarowana(zmienna.getNazwa()) && !zmienne.czyZawiera(zmienna)) zmienne.dodajZmienna(zmienna);
         }
         zadeklarowaneZmienne.clear();
         return true;
     }
     @Override
-    protected boolean wykonaj(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
+    protected boolean wykonaj(Zmienne wczesniejszeZmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
+        this.wczesniejszeZmienne = wczesniejszeZmienne;
         boolean wykonano = zainicjalizuj();
         if(!wykonano) return false;
         wykonano = false;

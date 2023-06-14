@@ -13,6 +13,14 @@ public class Zmienna extends Wyrazenie {
         this.nazwa = nazwa;
     }
 
+    public Zmienna(char nazwa){
+        this.nazwa = nazwa;
+    }
+
+    public static Zmienna oNazwie(char nazwa){
+        return new Zmienna(nazwa);
+    }
+
     private Zmienna znajdzZmienna(char nazwa, Vector<Zmienna> zmienne) throws BrakZmiennejException{
         int i = 0;
         while (i < zmienne.size() && zmienne.elementAt(i).nazwa != nazwa){

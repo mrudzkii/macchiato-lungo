@@ -13,22 +13,37 @@ public class Dzielenie extends Wyrazenie{
         this.nrKonstruktora = 0;
     }
 
+    public static Dzielenie wyrazen(Wyrazenie wyr1, Wyrazenie wyr2) {
+        return new Dzielenie(wyr1, wyr2);
+    }
+
     public Dzielenie(Wyrazenie wyr, char zmienna) {
         this.wyr1 = wyr;
         this.zmienna2 = zmienna;
         this.nrKonstruktora = 1;
     }
 
+    public static Dzielenie wyrazen(Wyrazenie wyr, char zmienna){
+        return new Dzielenie(wyr, zmienna);
+    }
     public Dzielenie(char zmienna, Wyrazenie wyrazenie){
         this.zmienna1 = zmienna;
         this.wyr2 = wyrazenie;
         this.nrKonstruktora = 2;
     }
 
+    public static Dzielenie wyrazen(char zmienna, Wyrazenie wyrazenie){
+        return new Dzielenie(zmienna, wyrazenie);
+    }
+
     public Dzielenie(char zmienna1, char zmienna2){
         this.zmienna1 = zmienna1;
         this.zmienna2 = zmienna2;
         this.nrKonstruktora = 3;
+    }
+
+    public static Dzielenie wyrazen(char zmienna1, char zmienna2){
+        return new Dzielenie(zmienna1, zmienna2);
     }
 
     @Override
