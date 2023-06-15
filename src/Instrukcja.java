@@ -9,16 +9,23 @@ public abstract class Instrukcja {
         return zmienne;
     }
 
+    public void setZmienne(Zmienne zmienne) {
+        this.zmienne = zmienne;
+    }
+
     public String getNazwaInstrukcji(){
         return nazwaInstrukcji;
     }
-    protected abstract boolean wykonaj(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion;
-    protected boolean uruchom(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
+    protected abstract boolean wykonaj(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
+            BrakProceduryException, ZlaLiczbaParametrowException;
+    protected boolean uruchom(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
+            BrakProceduryException, ZlaLiczbaParametrowException{
         return true;
     }
 
-    protected int step(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
-        if(this.uruchom(zmienne)) return 1;
+    protected int step(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
+            BrakProceduryException, ZlaLiczbaParametrowException{
+        if(this.uruchom(zmienne, procedury)) return 1;
         else return -1;
     }
 

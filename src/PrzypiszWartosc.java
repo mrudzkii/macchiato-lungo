@@ -22,14 +22,14 @@ public class PrzypiszWartosc extends Instrukcja{
 
 
     @Override
-    protected boolean uruchom(Zmienne zmienne) throws  DzieleniePrzezZeroException, BrakZmiennejException{
+    protected boolean uruchom(Zmienne zmienne, Procedury procedury) throws  DzieleniePrzezZeroException, BrakZmiennejException{
         int wartosc = wyrazenie.wylicz(zmienne);
         zmienne.przypiszWartosc(nazwa, wartosc);
         return true;
     }
 
     @Override
-    protected boolean wykonaj(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected boolean wykonaj(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         return true;
     }
 }

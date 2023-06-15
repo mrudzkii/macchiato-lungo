@@ -48,6 +48,22 @@ public class Zmienne {
         throw new BrakZmiennejException("Nie znaleziono zmiennej '" + nazwa + "' do wypisania");
     }
 
+    public boolean czyZawiera(char nazwa){
+        for (Zmienna z : zmienne){
+            if(z.getNazwa() == nazwa)
+                return true;
+        }
+        return false;
+    }
+
+    public void usunZmienna(char nazwa){
+        for (Zmienna z : zmienne){
+            if(z.getNazwa() == nazwa) {
+                zmienne.remove(z);
+                return;
+            }
+        }
+    }
     protected int wartosc(char nazwa) throws BrakZmiennejException {
         for(Zmienna z : zmienne){
             if(z.getNazwa() == nazwa) return z.getWartosc();

@@ -43,10 +43,10 @@ public class Program {
     public void uruchomBezDebugowania(){
         boolean wykonano;
             try {
-                wykonano = zewnetrzny.wykonaj(new Zmienne());
+                wykonano = zewnetrzny.wykonaj(new Zmienne(), new Procedury());
                 zewnetrzny.wypiszWartosci();
 
-            } catch (BrakZmiennejException | DzieleniePrzezZeroException | PodwojnaDekleracjaExcepion e) {
+            } catch (Exception e) {
                 System.out.println("Blad wykonania");
                 e.printStackTrace();
             }
@@ -69,10 +69,10 @@ public class Program {
                     }
                     while (parametr > 0) {
                         try {
-                            wynik = zewnetrzny.step(new Zmienne());
+                            wynik = zewnetrzny.step(new Zmienne(), new Procedury());
                             if(zewnetrzny.getKtoraInstrukcja() == zewnetrzny.getInstrukcje().size())
                                 zewnetrzny.wypiszWartosci();
-                        } catch (BrakZmiennejException | DzieleniePrzezZeroException | PodwojnaDekleracjaExcepion e) {
+                        } catch (Exception e) {
                             System.out.println("Nastapil blad wykonywania");
                             break;
                         }
@@ -100,10 +100,10 @@ public class Program {
                     }
                     while (zewnetrzny.ktoraInstrukcja < zewnetrzny.getInstrukcje().size()){
                         try {
-                            wynik = zewnetrzny.step(new Zmienne());
+                            wynik = zewnetrzny.step(new Zmienne(), new Procedury());
                             if(zewnetrzny.getKtoraInstrukcja() == zewnetrzny.getInstrukcje().size())
                                 zewnetrzny.wypiszWartosci();
-                        } catch (BrakZmiennejException | DzieleniePrzezZeroException | PodwojnaDekleracjaExcepion e) {
+                        } catch (Exception e) {
                             System.out.println("Nastapil blad wykonywania");
                             break;
                         }

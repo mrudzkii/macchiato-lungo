@@ -1,22 +1,22 @@
 import java.util.Vector;
 
 public class WypiszWartosc extends Instrukcja{
-    char nazwa;
-    public WypiszWartosc(char nazwa) {
+    Wyrazenie wyrazenie;
+    public WypiszWartosc(Wyrazenie wyrazenie) {
         this.nazwaInstrukcji = "WypiszWartosc";
-        this.nazwa = nazwa;
+        this.wyrazenie = wyrazenie;
 //        glebokosc = program.getBloki().lastElement().glebokosc;
 //        program.dodajInstrukcje(this);
     }
 
     @Override
-    protected boolean uruchom (Zmienne zmienne) throws BrakZmiennejException{
-        zmienne.wypiszWartosc(nazwa);
+    protected boolean uruchom (Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException{
+        System.out.println(wyrazenie.wylicz(zmienne));
         return true;
     }
 
     @Override
-    protected boolean wykonaj(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+    protected boolean wykonaj(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
         return true;
     }
 }

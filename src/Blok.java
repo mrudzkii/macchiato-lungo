@@ -5,11 +5,26 @@ public class Blok extends Instrukcja{
     protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneWczesniejZmienne;
     protected Zmienne wczesniejszeZmienne;
     protected Blok poprzedniBlok;
+    protected Procedury procedury;
+    protected Procedury wczesniejszeProcedury;
     protected int ktoraInstrukcja;
 
     @Override
     public Zmienne getZmienne() {
         return super.getZmienne();
+    }
+
+    public void setZadeklarowaneZmienne(Vector<Pair<Character, Wyrazenie>> zadeklarowaneZmienne) {
+        this.zadeklarowaneZmienne = zadeklarowaneZmienne;
+    }
+
+
+    public Procedury getProcedury() {
+        return procedury;
+    }
+
+    public void setProcedury(Procedury procedury) {
+        this.procedury = procedury;
     }
 
     public int getKtoraInstrukcja() {
@@ -112,17 +127,24 @@ public class Blok extends Instrukcja{
             if(!czyZadeklarowana(zmienna.getNazwa()) && !zmienne.czyZawiera(zmienna)) zmienne.dodajZmienna(zmienna);
         }
         zadeklarowaneZmienne.clear();
+
+        for(Procedura p : wczesniejszeProcedury.getProcedury()){
+            if(!procedury.czyIstnieje(p.getNazwa()))
+                procedury.dodajProcedure(p);
+        }
         return true;
     }
     @Override
-    protected boolean wykonaj(Zmienne wczesniejszeZmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
+    protected boolean wykonaj(Zmienne wczesniejszeZmienne, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
+            PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException{
         this.wczesniejszeZmienne = wczesniejszeZmienne;
+        this.wczesniejszeProcedury = wczesniejszeProcedury;
         boolean wykonano = zainicjalizuj();
         if(!wykonano) return false;
         wykonano = false;
         for(Instrukcja i : instrukcje){
             try{
-                wykonano = i.uruchom(zmienne);
+                wykonano = i.uruchom(zmienne, procedury);
             }
             catch (DzieleniePrzezZeroException | BrakZmiennejException | PodwojnaDekleracjaExcepion e){
                 System.out.println("Błąd w instrukcji " + i.getNazwaInstrukcji());
@@ -138,12 +160,14 @@ public class Blok extends Instrukcja{
     }
 
     @Override
-    protected boolean uruchom(Zmienne zmienne) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
-        return wykonaj(zmienne);
+    protected boolean uruchom(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
+            BrakProceduryException, ZlaLiczbaParametrowException{
+        return wykonaj(zmienne, procedury);
     }
 
     @Override
-    protected int step(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion{
+    protected int step(Zmienne zmienneUseless, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
+            BrakProceduryException, ZlaLiczbaParametrowException{
         int wykonano;
         if(ktoraInstrukcja < 0){
             if (!zainicjalizuj()) {
@@ -156,7 +180,7 @@ public class Blok extends Instrukcja{
         else if(ktoraInstrukcja < instrukcje.size()) {
             Instrukcja i = instrukcje.elementAt(ktoraInstrukcja);
             try {
-                wykonano = i.step(zmienne);
+                wykonano = i.step(zmienne, procedury);
                 if(wykonano == 1) ktoraInstrukcja++;
                 else if(wykonano == -1) return -1;
                 if(ktoraInstrukcja >= instrukcje.size()) {

@@ -58,19 +58,40 @@
 //    }
 //}
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        var program = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
-                .zadeklarujZmienna('x', Literal.oWartosci(21))
-                .zadeklarujZmienna('y', Odejmowanie.wyrazen(Dodawanie.wyrazen('x', Literal.oWartosci(20)), Literal.oWartosci(4)))
-                .wypiszWartosc('x')
-                .wypiszWartosc('y')
+//        var program = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+//                .zadeklarujZmienna('x', Literal.oWartosci(21))
+//                .zadeklarujZmienna('y', Odejmowanie.wyrazen(Dodawanie.wyrazen('x', Literal.oWartosci(20)), Literal.oWartosci(4)))
+//                .wypiszWartosc(Zmienna.oNazwie('x'))
+//                .wypiszWartosc(Zmienna.oNazwie('y'))
+//                .blok(new BlokBuilder()
+//                        .zadeklarujZmienna('x', Mnozenie.wyrazen(Zmienna.oNazwie('y'), Literal.oWartosci(3)))
+//                        .zadeklarujZmienna('y', Literal.oWartosci(42))
+//                        .wypiszWartosc(Zmienna.oNazwie('x'))
+//                        .wypiszWartosc(Zmienna.oNazwie('y')).build())
+//        ).build();
+//        program.uruchomBezDebugowania();
+
+        var sraka = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+                .zadeklarujZmienna('x', Literal.oWartosci(101))
+                .zadeklarujZmienna('y', Literal.oWartosci(1))
+                .zadeklarujProcedure("out", List.of('a'), new BlokBuilder()
+                        .wypiszWartosc(Dodawanie.wyrazen(Zmienna.oNazwie('a'), Zmienna.oNazwie('x'))).build())
+                .przypiszWartosc('x', Odejmowanie.wyrazen(Zmienna.oNazwie('x'), Zmienna.oNazwie('y')))
+//                .wypiszWartosc(Zmienna.oNazwie('x'))
+                .wywolajProcedure("out", List.of(Zmienna.oNazwie('x')))
+                .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
+//                .wywolajProcedure("out", List.of(Literal.oWartosci(21), Literal.oWartosci(37)))
+//                .wywolajProcedure("blednaNazwa", List.of(Literal.oWartosci(69)))
                 .blok(new BlokBuilder()
-                        .zadeklarujZmienna('x', Mnozenie.wyrazen(Zmienna.oNazwie('y'), Literal.oWartosci(3)))
-                        .zadeklarujZmienna('y', Literal.oWartosci(42))
-                        .wypiszWartosc('x')
-                        .wypiszWartosc('y').build())
+                        .zadeklarujZmienna('x', Literal.oWartosci(10))
+                        .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
+                        .build())
         ).build();
-        program.uruchomBezDebugowania();
+
+        sraka.uruchomBezDebugowania();
     }
 }
