@@ -1,9 +1,6 @@
-import java.util.Vector;
-
 public abstract class Instrukcja {
     protected String nazwaInstrukcji;
     protected int glebokosc;
-//    protected Vector<Zmienna> zmienne;
     protected Zmienne zmienne;
     public Zmienne getZmienne() {
         return zmienne;
@@ -11,6 +8,12 @@ public abstract class Instrukcja {
 
     public void setZmienne(Zmienne zmienne) {
         this.zmienne = zmienne;
+    }
+
+    public Blok ostatnioWykonanyBlok() { return null; }
+
+    public void setGlebokosc(int glebokosc) {
+        this.glebokosc = glebokosc;
     }
 
     public String getNazwaInstrukcji(){

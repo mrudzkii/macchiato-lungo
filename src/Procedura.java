@@ -7,15 +7,23 @@ public class Procedura extends Instrukcja{
     private List<Wyrazenie> argumentyWyrazenia;
     private Zmienne zmienne;
     private Blok blok;
+    private boolean czyZainicjalizowano;
 
     public String getNazwa() {
         return nazwa;
+    }
+
+    public List<Character> getNazwyLista(){
+        return argumentyNazwy;
     }
 
     public Procedura(String nazwa, List<Character> argumentyNazwy, Blok blok) {
         this.nazwa = nazwa;
         this.argumentyNazwy = argumentyNazwy;
         this.blok = blok;
+        czyZainicjalizowano = false;
+        this.nazwaInstrukcji = "Procedura " + nazwa;
+        this.zmienne = new Zmienne();
     }
 
     public void dodajWartosci(List<Wyrazenie> argumentyWyrazenia){
@@ -25,7 +33,9 @@ public class Procedura extends Instrukcja{
     @Override
     protected boolean wykonaj(Zmienne zmienneWczesniejsze, Procedury procedury) throws  BrakZmiennejException, DzieleniePrzezZeroException,
             PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException {
-        zmienne = zmienneWczesniejsze;
+        zmienne = new Zmienne();
+        for(Zmienna zmienna : zmienneWczesniejsze.getVector())
+            zmienne.dodajZmienna(zmienna);
         if(argumentyNazwy.size() != argumentyWyrazenia.size())
             throw new ZlaLiczbaParametrowException("Zla liczba parametrów procedury '" + nazwa + "' \nZadeklarowano: " +
                     argumentyNazwy.size() + "\nPrzyjęto: " + argumentyWyrazenia.size());
@@ -45,17 +55,23 @@ public class Procedura extends Instrukcja{
     }
 
     @Override
-    protected boolean uruchom(Zmienne zmienneWczesniejsze, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
-            PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException {
-        zmienne = zmienneWczesniejsze;
-//        if(procedury.czyIstnieje(this.getNazwa())) procedury.procedury.remove(procedury.znajdzProcedure(this.nazwa));
-        for (int i = 0; i < argumentyNazwy.size(); i++) {
-            int wartosc = argumentyWyrazenia.get(i).wylicz(zmienne);
-            if (zmienne.czyZawiera(argumentyNazwy.get(i))) {
-                zmienne.usunZmienna(argumentyNazwy.get(i));
+    protected int step(Zmienne zmienneWczesniejsze, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException {
+        if(!czyZainicjalizowano) {
+            zmienne = new Zmienne();
+            for(Zmienna zmienna : zmienneWczesniejsze.getVector())
+                zmienne.dodajZmienna(zmienna);
+            for (int i = 0; i < argumentyNazwy.size(); i++) {
+                int wartosc = argumentyWyrazenia.get(i).wylicz(zmienne);
+                if (zmienne.czyZawiera(argumentyNazwy.get(i))) {
+                    zmienne.usunZmienna(argumentyNazwy.get(i));
+                }
+                zmienne.dodajZmienna(argumentyNazwy.get(i), wartosc);
+                czyZainicjalizowano = true;
             }
-            zmienne.dodajZmienna(argumentyNazwy.get(i), wartosc);
+            blok.setZadeklarowaneZmienne(new Vector<>());
+            blok.setZmienne(new Zmienne());
+            return 0;
         }
-        return blok.wykonaj(zmienne, procedury);
+        return blok.step(zmienne, wczesniejszeProcedury);
     }
 }

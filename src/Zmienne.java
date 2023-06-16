@@ -15,6 +15,10 @@ public class Zmienne {
         zmienne.add(zmienna);
     }
 
+    public void setZmienne(Vector<Zmienna> zmienne) {
+        this.zmienne = zmienne;
+    }
+
     public boolean czyZawiera(Zmienna zmienna){
         return zmienne.contains(zmienna);
     }

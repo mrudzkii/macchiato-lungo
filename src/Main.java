@@ -75,7 +75,7 @@ public class Main {
 //        ).build();
 //        program.uruchomBezDebugowania();
 
-        var sraka = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+        var πwoóəńąœęśæ = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
                 .zadeklarujZmienna('x', Literal.oWartosci(101))
                 .zadeklarujZmienna('y', Literal.oWartosci(1))
                 .zadeklarujProcedure("out", List.of('a'), new BlokBuilder()
@@ -91,7 +91,22 @@ public class Main {
                         .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
                         .build())
         ).build();
+//        πwoóəńąœęśæ.uruchomBezDebugowania();
+        πwoóəńąœęśæ.uruchomZOdpluskiwaniem();
 
-        sraka.uruchomBezDebugowania();
+//        var piwo = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+//                        .zadeklarujZmienna('x', Literal.oWartosci(10))
+//                        .wypiszWartosc(Zmienna.oNazwie('x'))
+//                        .blok(new BlokBuilder()
+//                                .zadeklarujZmienna('y', Literal.oWartosci(20))
+//                                .wypiszWartosc(Zmienna.oNazwie('y'))
+//                                .blok(new BlokBuilder()
+//                                        .zadeklarujZmienna('z', Literal.oWartosci(30))
+//                                        .wypiszWartosc(Zmienna.oNazwie('z'))
+//                                        .wypiszWartosc(Zmienna.oNazwie('y'))
+//                                        .wypiszWartosc(Zmienna.oNazwie('x')).build()).build())
+//                ).build();
+////            piwo.uruchomBezDebugowania();
+//            piwo.uruchomZOdpluskiwaniem();
     }
 }

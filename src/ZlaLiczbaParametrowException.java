@@ -1,4 +1,4 @@
-public class ZlaLiczbaParametrowException extends Exception{ //#TODO: ten pierdolnik
+public class ZlaLiczbaParametrowException extends Exception{
     public ZlaLiczbaParametrowException(String message) {
         super(message);
     }

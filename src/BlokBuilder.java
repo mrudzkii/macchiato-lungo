@@ -7,12 +7,16 @@ public class BlokBuilder {
     protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneWczesniejZmienne;
     protected Procedury procedury;
     protected Blok poprzedniBlok;
+    protected Vector<Blok> zadeklarowaneBloki;
+    private static int glebokosc = 0;
 //    protected int ktoraInstrukcja;
 
     public BlokBuilder(){
+        glebokosc++;
         this.instrukcje = new Vector<>();
         this.zadeklarowaneZmienne = new Vector<>();
         this.procedury = new Procedury();
+        this.zadeklarowaneBloki = new Vector<>();
     }
 
     public BlokBuilder zadeklarujZmienna(char nazwa, Wyrazenie wartosc){
@@ -37,6 +41,8 @@ public class BlokBuilder {
 
     public BlokBuilder blok(Blok blok){
         blok.setProcedury(procedury);
+        blok.setGlebokosc(glebokosc);
+        zadeklarowaneBloki.add(blok);
         instrukcje.add(blok);
         return this;
     }
@@ -53,8 +59,12 @@ public class BlokBuilder {
     }
 
     public Blok build(){
+        glebokosc--;
         Blok res = new Blok(instrukcje, zadeklarowaneZmienne);
         res.setProcedury(procedury);
+        for(Blok blok : zadeklarowaneBloki){
+            blok.setPoprzedniBlok(res);
+        }
         return res;
     }
 

@@ -8,6 +8,7 @@ public class Blok extends Instrukcja{
     protected Procedury procedury;
     protected Procedury wczesniejszeProcedury;
     protected int ktoraInstrukcja;
+    private Instrukcja ostatnioWykonana;
 
     @Override
     public Zmienne getZmienne() {
@@ -18,6 +19,24 @@ public class Blok extends Instrukcja{
         this.zadeklarowaneZmienne = zadeklarowaneZmienne;
     }
 
+    @Override
+    public Blok ostatnioWykonanyBlok(){
+        if(ostatnioWykonana.czyBlok() && ostatnioWykonana != this)
+            return ostatnioWykonana.ostatnioWykonanyBlok();
+        else
+            return this;
+    }
+
+    public void setPoprzedniBlok(Blok poprzedniBlok) {
+        this.poprzedniBlok = poprzedniBlok;
+    }
+
+    public Blok xWstecz(int x){
+        if(x == 0){
+            return this;
+        }
+        return poprzedniBlok.xWstecz(x - 1);
+    }
 
     public Procedury getProcedury() {
         return procedury;
@@ -35,6 +54,8 @@ public class Blok extends Instrukcja{
         return instrukcje;
     }
 
+    private Vector<Blok> blokiWczesniejsze;
+
     //Atrybuty konieczne do działania Instrukji if oraz else
     protected String operator;
     protected Wyrazenie wyr1;
@@ -47,15 +68,18 @@ public class Blok extends Instrukcja{
         zmienne = new Zmienne();
         instrukcje = new Vector<>();
         zadeklarowaneZmienne = new Vector<>();
-//        if(program.getBloki().size() > 0){
-//            glebokosc = program.getBloki().lastElement().glebokosc + 1;
-//            poprzedniBlok = program.getBloki().lastElement();
-//            zadeklarowaneWczesniejZmienne = poprzedniBlok.zadeklarowaneZmienne;
-//        }else{
-//            glebokosc = 1;
-//        }
+        blokiWczesniejsze = new Vector<>();
         ktoraInstrukcja = -1;
-//        program.beginBlock(this);
+        this.wczesniejszeZmienne = new Zmienne();
+        this.wczesniejszeProcedury = new Procedury();
+    }
+
+    public void setBlokiWczesniejsze(Vector<Blok> blokiWczesniejsze) {
+        this.blokiWczesniejsze = blokiWczesniejsze;
+    }
+
+    public void addBlokiWczesniejsze(Blok blok){
+        this.blokiWczesniejsze.add(blok);
     }
 
     public Blok(Vector<Instrukcja> instrukcje, Vector<Pair<Character, Wyrazenie>> zadeklarowaneZmienne){
@@ -65,10 +89,12 @@ public class Blok extends Instrukcja{
         zmienne = new Zmienne();
         this.nazwaInstrukcji = "Blok";
         ktoraInstrukcja = -1;
+        this.wczesniejszeZmienne = new Zmienne();
+        this.wczesniejszeProcedury = new Procedury();
     }
 
     public void deklaracjaZmiennej(char nazwa, Wyrazenie wartosc){
-        zadeklarowaneZmienne.add(new Pair<Character, Wyrazenie>(nazwa, wartosc));
+        zadeklarowaneZmienne.add(new Pair<>(nazwa, wartosc));
     }
 
 
@@ -87,15 +113,9 @@ public class Blok extends Instrukcja{
         zmienne.wypiszWartosci();
     }
 
-//    protected boolean czyVectorZawiera(Vector<Zmienna> wektor, Zmienna zmienna){
-//        for(Zmienna element : wektor){
-//            if (element == zmienna) return true;
-//        }
-//        return false;
-//    }
-
     private boolean zainicjalizuj(){
-        int wartosc = 0;
+        int wartosc;
+        ostatnioWykonana = this;
         for (Pair<Character, Wyrazenie> para : zadeklarowaneZmienne){
             try{
                 wartosc = para.getSecond().wylicz(zmienne);
@@ -137,8 +157,8 @@ public class Blok extends Instrukcja{
     @Override
     protected boolean wykonaj(Zmienne wczesniejszeZmienne, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
             PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException{
-        this.wczesniejszeZmienne = wczesniejszeZmienne;
-        this.wczesniejszeProcedury = wczesniejszeProcedury;
+        this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());
+        this.wczesniejszeProcedury.procedury = wczesniejszeProcedury.procedury; //#TODO getter setter
         boolean wykonano = zainicjalizuj();
         if(!wykonano) return false;
         wykonano = false;
@@ -150,7 +170,6 @@ public class Blok extends Instrukcja{
                 System.out.println("Błąd w instrukcji " + i.getNazwaInstrukcji());
                 wypiszWartosci();
                 e.printStackTrace();
-                wykonano = false;
                 return false;
             }
             if(!wykonano)
@@ -166,25 +185,28 @@ public class Blok extends Instrukcja{
     }
 
     @Override
-    protected int step(Zmienne zmienneUseless, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
+    protected int step(Zmienne wczesniejszeZmienne, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
             BrakProceduryException, ZlaLiczbaParametrowException{
         int wykonano;
+        this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());
+        this.wczesniejszeProcedury.procedury = wczesniejszeProcedury.procedury; //#TODO getter setter
         if(ktoraInstrukcja < 0){
             if (!zainicjalizuj()) {
                 return -1;
             }
             ktoraInstrukcja++;
-            if(instrukcje.size() == 0 || getGlebokosc() == 1) return 1;
+            if(instrukcje.size() == 0 || getGlebokosc() == 0) return 1;
             return 0;
         }
         else if(ktoraInstrukcja < instrukcje.size()) {
             Instrukcja i = instrukcje.elementAt(ktoraInstrukcja);
             try {
                 wykonano = i.step(zmienne, procedury);
+                ostatnioWykonana = i;
                 if(wykonano == 1) ktoraInstrukcja++;
                 else if(wykonano == -1) return -1;
                 if(ktoraInstrukcja >= instrukcje.size()) {
-                    ktoraInstrukcja = 0;
+//                    ktoraInstrukcja = 0;
                     return 1;
                 }
                 return 0;

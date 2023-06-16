@@ -8,6 +8,7 @@ public class DeklaracjaWykonaniaProcedury extends Instrukcja{
     public DeklaracjaWykonaniaProcedury(String nazwa, List<Wyrazenie> wartosciArgumentow) {
         this.nazwa = nazwa;
         this.wartosciArgumentow = wartosciArgumentow;
+        this.nazwaInstrukcji = "Procedura '" + nazwa + "'";
     }
 
     @Override
