@@ -157,7 +157,7 @@ public class Blok extends Instrukcja{
     }
     @Override
     protected boolean wykonaj(Zmienne wczesniejszeZmienne, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
-            PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException{
+            PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());
         this.wczesniejszeProcedury.procedury = wczesniejszeProcedury.procedury; //#TODO getter setter
         boolean wykonano = zainicjalizuj();
@@ -181,13 +181,13 @@ public class Blok extends Instrukcja{
 
     @Override
     protected boolean uruchom(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException{
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         return wykonaj(zmienne, procedury);
     }
 
     @Override
     protected int step(Zmienne wczesniejszeZmienne, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException{
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         int wykonano;
         if(ktoraInstrukcja < 0){
             this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());

@@ -124,7 +124,7 @@ public class Main {
 
         var testIfa = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
                         .zadeklarujZmienna('x', Literal.oWartosci(69))
-                        .dodajIf(Zmienna.oNazwie('x'), "<=", Literal.oWartosci(67), new BlokBuilder()
+                        .dodajIf(Zmienna.oNazwie('x'), "<=", Literal.oWartosci(69), new BlokBuilder()
                                 .d00pa().d00pa().build()
 //                                , new BlokBuilder().wypiszWartosc(Zmienna.oNazwie('x')).d00pa().build())
                         )).build();

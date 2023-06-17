@@ -93,7 +93,7 @@ public class For extends Instrukcja{
 
     @Override
     protected boolean uruchom(Zmienne zmiennePoprzednie, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException{
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
 //        boolean wykonano;
 //        wykonano = zainicjalizuj();
 //        if(!wykonano) return false;
@@ -144,7 +144,7 @@ public class For extends Instrukcja{
 
     @Override
     protected int step(Zmienne zmiennePoprzednie, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
-            PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException {
+            PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException {
 //        int wykonano;
 //        if(ktoraInstrukcja < 0){
 //            if (!zainicjalizuj()) {

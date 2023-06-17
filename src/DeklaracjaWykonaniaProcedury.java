@@ -13,7 +13,7 @@ public class DeklaracjaWykonaniaProcedury extends Instrukcja{
 
     @Override
     protected boolean wykonaj(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException{
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         Procedura procedura = procedury.znajdzProcedure(nazwa);
         procedura.dodajWartosci(wartosciArgumentow);
         return procedura.wykonaj(zmienne, procedury);
@@ -21,7 +21,7 @@ public class DeklaracjaWykonaniaProcedury extends Instrukcja{
 
     @Override
     protected boolean uruchom(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException{
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         Procedura procedura = procedury.znajdzProcedure(nazwa);
         procedura.dodajWartosci(wartosciArgumentow);
         return procedura.wykonaj(zmienne, procedury);

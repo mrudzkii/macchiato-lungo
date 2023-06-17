@@ -9,7 +9,7 @@ public class IfElse extends If{
 
     @Override
     public boolean wykonaj(Zmienne zmienne, Procedury procedury) throws DzieleniePrzezZeroException, BrakZmiennejException,
-            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException{
+            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException, PodwojnaDeklaracjaProceduryException{
         zainicjalizuj(zmienne);
         if(czyWykonywac){
             blok.uruchom(zmienne, procedury);
@@ -20,7 +20,7 @@ public class IfElse extends If{
     }
 
     protected int step(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
-            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException {
+            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException, PodwojnaDeklaracjaProceduryException {
         zainicjalizuj(zmienne);
         if(czyWykonywac)
             return blok.step(zmienne, procedury);

@@ -87,7 +87,7 @@ public class If extends Instrukcja {
     }
     @Override
     public boolean wykonaj(Zmienne zmienne, Procedury procedury) throws DzieleniePrzezZeroException, BrakZmiennejException,
-            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException{
+            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException, PodwojnaDeklaracjaProceduryException{
         zainicjalizuj(zmienne);
         if(czyWykonywac){
             blok.uruchom(zmienne, procedury);
@@ -97,13 +97,13 @@ public class If extends Instrukcja {
 
     @Override
     protected boolean uruchom(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
-            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException {
+            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException, PodwojnaDeklaracjaProceduryException {
         return wykonaj(zmienne, procedury);
     }
 
     @Override
     protected int step(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
-            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException {
+            PodwojnaDekleracjaExcepion, ZlaLiczbaParametrowException, BrakProceduryException, PodwojnaDeklaracjaProceduryException {
 //        int wykonano;
 //        if(ktoraInstrukcja < 0) {
 //            zainicjalizuj();

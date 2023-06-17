@@ -20,14 +20,14 @@ public abstract class Instrukcja {
         return nazwaInstrukcji;
     }
     protected abstract boolean wykonaj(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException;
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException;
     protected boolean uruchom(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException{
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         return true;
     }
 
     protected int step(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
-            BrakProceduryException, ZlaLiczbaParametrowException{
+            BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         if(this.uruchom(zmienne, procedury)) return 1;
         else return -1;
     }
