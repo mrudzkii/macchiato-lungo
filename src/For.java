@@ -22,7 +22,15 @@ public class For extends Instrukcja{
         this.czyZainicjalizowano = false;
     }
 
-//    public For(Program program, char zmiennaIterator, char zmiennaKoniecZakresu){
+    @Override
+    public String getNazwaInstrukcji() {
+        if(!czyZainicjalizowano){
+            return nazwaInstrukcji;
+        }
+        return blok.getNazwaInstrukcji();
+    }
+
+    //    public For(Program program, char zmiennaIterator, char zmiennaKoniecZakresu){
 ////        super(program);
 //        this.nazwaInstrukcji = "For";
 ////        poprzedniBlok = program.getBloki().elementAt(program.getBloki().size()-2);
@@ -113,14 +121,19 @@ public class For extends Instrukcja{
             if (zmienna.getNazwa() == this.zmienna){
                 iterator = new Zmienna(this.zmienna, wartosc);
                 zmienne.dodajZmienna(iterator);
-            }else {
+            }else if(!zmienne.czyZawiera(zmienna.getNazwa())) {
                 zmienne.dodajZmienna(zmienna);
             }
+        }
+        if(!zmienne.czyZawiera(this.zmienna)){
+            iterator = new Zmienna(this.zmienna, wartosc);
+            zmienne.dodajZmienna(iterator);
         }
         for (int i = 0; i < ileRazy; i++) {
             iterator.ustawWartosc(i);
             blok.wykonaj(zmienne, procedury);
         }
+//        iterator.ustawWartosc(0);
         return true;
     }
 
@@ -180,9 +193,13 @@ public class For extends Instrukcja{
                     iterator = new Zmienna(this.zmienna, wartosc);
                     iterator.ustawWartosc(0);
                     zmienne.dodajZmienna(iterator);
-                }else {
+                }else if(!zmienne.czyZawiera(zmienna.getNazwa())){
                     zmienne.dodajZmienna(zmienna);
                 }
+            }
+            if(!zmienne.czyZawiera(this.zmienna)){
+                iterator = new Zmienna(this.zmienna, wartosc);
+                zmienne.dodajZmienna(iterator);
             }
             czyZainicjalizowano = true;
             return 0;
@@ -194,8 +211,12 @@ public class For extends Instrukcja{
                 iterator.ustawWartosc(ktoryObrot);
 //                blok.ktoraInstrukcja = 0;
             }
-            if(ktoryObrot == ileRazy)
+            if(ktoryObrot == ileRazy) {
+                ktoryObrot = 0;
+                czyZainicjalizowano = false;
+                iterator.ustawWartosc(0);
                 return 1;
+            }
             else{
                 return 0;
             }

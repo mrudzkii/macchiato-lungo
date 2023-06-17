@@ -53,6 +53,16 @@ public class BlokBuilder {
         return this;
     }
 
+    public BlokBuilder dodajIf(Wyrazenie wyr1, String operator, Wyrazenie wyr2, Blok blok){
+        instrukcje.add(new If(wyr1, operator, wyr2, blok));
+        return this;
+    }
+
+    public BlokBuilder dodajElseIf(Wyrazenie wyr1, String operator, Wyrazenie wyr2, Blok blok, Blok blokElse){
+        instrukcje.add(new IfElse(wyr1, operator, wyr2, blok, blokElse));
+        return this;
+    }
+
     public BlokBuilder d00pa(){
         instrukcje.add(new D00pa());
         return this;

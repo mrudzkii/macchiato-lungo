@@ -116,6 +116,7 @@ public class Blok extends Instrukcja{
     private boolean zainicjalizuj(){
         int wartosc;
         ostatnioWykonana = this;
+        zmienne = new Zmienne();
         for (Pair<Character, Wyrazenie> para : zadeklarowaneZmienne){
             try{
                 wartosc = para.getSecond().wylicz(zmienne);
@@ -200,7 +201,7 @@ public class Blok extends Instrukcja{
         }
         if(ktoraInstrukcja == instrukcje.size())
             ktoraInstrukcja = 0;
-        else if(ktoraInstrukcja < instrukcje.size()) {
+        if(ktoraInstrukcja < instrukcje.size()) {
             Instrukcja i = instrukcje.elementAt(ktoraInstrukcja);
             try {
                 wykonano = i.step(zmienne, procedury);
@@ -226,7 +227,7 @@ public class Blok extends Instrukcja{
         if(ktoraInstrukcja < 0)
             return this.nazwaInstrukcji;
         else
-            return instrukcje.elementAt(ktoraInstrukcja).getNazwaInstrukcji();
+            return instrukcje.elementAt(ktoraInstrukcja % instrukcje.size()).getNazwaInstrukcji();
     }
 
     @Override

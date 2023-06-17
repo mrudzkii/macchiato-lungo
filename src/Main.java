@@ -109,14 +109,26 @@ public class Main {
 ////            piwo.uruchomBezDebugowania();
 //            piwo.uruchomZOdpluskiwaniem();
 
-        var tesFora = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
-                .zadeklarujZmienna('x', Literal.oWartosci(3))
-                .dodajFor('x', Literal.oWartosci(5), new BlokBuilder()
-                        .wypiszWartosc(Zmienna.oNazwie('x'))
-                        .d00pa().build()
-        )).build();
-
+//        var tesFora = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+//                .zadeklarujZmienna('x', Literal.oWartosci(3))
+//                .d00pa()
+//                .dodajFor('x', Literal.oWartosci(5), new BlokBuilder()
+//                        .wypiszWartosc(Zmienna.oNazwie('x'))
+//                        .dodajFor('y', Literal.oWartosci(5), new BlokBuilder()
+//                                .wypiszWartosc(Zmienna.oNazwie('y')).build())
+//                        .d00pa().build()
+//        )).build();
+//
 //        tesFora.uruchomBezDebugowania();
-        tesFora.uruchomZOdpluskiwaniem();
+//        tesFora.uruchomZOdpluskiwaniem();
+
+        var testIfa = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+                        .zadeklarujZmienna('x', Literal.oWartosci(69))
+                        .dodajIf(Zmienna.oNazwie('x'), "<=", Literal.oWartosci(67), new BlokBuilder()
+                                .d00pa().d00pa().build()
+//                                , new BlokBuilder().wypiszWartosc(Zmienna.oNazwie('x')).d00pa().build())
+                        )).build();
+
+        testIfa.uruchomBezDebugowania();
     }
 }
