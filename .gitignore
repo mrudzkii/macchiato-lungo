@@ -8,3 +8,4 @@
 /dataSources.local.xml
 # Ignore compiled files
 *.class
+/src/piwo.thc

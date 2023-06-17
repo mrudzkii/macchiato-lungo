@@ -1,5 +1,3 @@
-import java.util.Vector;
-
 public class Dzielenie extends Wyrazenie{
     private Wyrazenie wyr1;
     private Wyrazenie wyr2;
