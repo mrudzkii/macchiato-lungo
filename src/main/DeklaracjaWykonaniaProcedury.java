@@ -25,6 +25,5 @@ public class DeklaracjaWykonaniaProcedury extends Instrukcja{
         Procedura procedura = procedury.znajdzProcedure(nazwa);
         procedura.dodajWartosci(wartosciArgumentow);
         return procedura.wykonaj(zmienne, procedury);
-//        return true;
     }
 }

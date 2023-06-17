@@ -15,6 +15,10 @@ public class Program {
         return bloki;
     }
 
+    public Blok getZewnetrzny(){
+        return zewnetrzny;
+    }
+
     public void deklaracjaZmiennej (char nazwa, Wyrazenie wyr){
         bloki.lastElement().deklaracjaZmiennej(nazwa, wyr);
     }

@@ -33,8 +33,6 @@ public class Procedura extends Instrukcja {
 
     private void inicjalizuj(Zmienne zmienneWczesniejsze, Procedury procedury) throws PodwojnaDeklaracjaProceduryException,
             ZlaLiczbaParametrowException, PodwojnaDekleracjaExcepion, DzieleniePrzezZeroException, BrakZmiennejException {
-        if (procedury.czyIstnieje(nazwa))
-            throw new PodwojnaDeklaracjaProceduryException("Podwojna deklaracja procedury " + nazwa);
         if (argumentyNazwy.size() != argumentyWyrazenia.size()) {
             throw new ZlaLiczbaParametrowException("Zla liczba parametrów procedury '" + nazwa + "' \nZadeklarowano: " +
                     argumentyNazwy.size() + "\nPrzyjęto: " + argumentyWyrazenia.size());

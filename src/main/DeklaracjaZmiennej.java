@@ -1,5 +1,3 @@
-import java.util.Vector;
-
 public class DeklaracjaZmiennej extends Instrukcja{
     private char nazwa;
     private Wyrazenie wyr;

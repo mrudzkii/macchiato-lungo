@@ -1,13 +1,10 @@
-import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 import java.util.Vector;
 
 public class BlokBuilder {
     protected Vector<Instrukcja> instrukcje;
     protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneZmienne;
-    protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneWczesniejZmienne;
     protected Procedury procedury;
-    protected Blok poprzedniBlok;
     protected Vector<Blok> zadeklarowaneBloki;
     private static int glebokosc = 0;
 //    protected int ktoraInstrukcja;

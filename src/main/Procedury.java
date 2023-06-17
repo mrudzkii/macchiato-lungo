@@ -19,7 +19,7 @@ public class Procedury {
         return false;
     }
 
-    public void dodajProcedure(Procedura procedura){
+    public void dodajProcedure(Procedura procedura) {
         procedury.add(procedura);
     }
 

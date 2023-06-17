@@ -2,7 +2,6 @@ import java.util.Vector;
 public class Blok extends Instrukcja{
     protected Vector<Instrukcja> instrukcje;
     protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneZmienne;
-    protected Vector<Pair<Character, Wyrazenie>> zadeklarowaneWczesniejZmienne;
     protected Zmienne wczesniejszeZmienne;
     protected Blok poprzedniBlok;
     protected Procedury procedury;
@@ -54,38 +53,9 @@ public class Blok extends Instrukcja{
         return instrukcje;
     }
 
-    private Vector<Blok> blokiWczesniejsze;
-
-    //Atrybuty konieczne do działania Instrukji if oraz else
-    protected String operator;
-    protected Wyrazenie wyr1;
-    protected Wyrazenie wyr2;
-    protected char zmienna1 = ' ';
-    protected char zmienna2 = ' ';
-
-    public Blok() {
-        this.nazwaInstrukcji = "Blok";
-        zmienne = new Zmienne();
-        instrukcje = new Vector<>();
-        zadeklarowaneZmienne = new Vector<>();
-        blokiWczesniejsze = new Vector<>();
-        ktoraInstrukcja = -1;
-        this.wczesniejszeZmienne = new Zmienne();
-        this.wczesniejszeProcedury = new Procedury();
-    }
-
-    public void setBlokiWczesniejsze(Vector<Blok> blokiWczesniejsze) {
-        this.blokiWczesniejsze = blokiWczesniejsze;
-    }
-
-    public void addBlokiWczesniejsze(Blok blok){
-        this.blokiWczesniejsze.add(blok);
-    }
-
     public Blok(Vector<Instrukcja> instrukcje, Vector<Pair<Character, Wyrazenie>> zadeklarowaneZmienne){
         this.instrukcje = instrukcje;
         this.zadeklarowaneZmienne = zadeklarowaneZmienne;
-        this.nazwaInstrukcji = "Blok";
         zmienne = new Zmienne();
         this.nazwaInstrukcji = "Blok";
         ktoraInstrukcja = -1;

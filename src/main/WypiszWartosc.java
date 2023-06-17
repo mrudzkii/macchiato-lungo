@@ -1,12 +1,8 @@
-import java.util.Vector;
-
 public class WypiszWartosc extends Instrukcja{
     private Wyrazenie wyrazenie;
     public WypiszWartosc(Wyrazenie wyrazenie) {
         this.nazwaInstrukcji = "WypiszWartosc";
         this.wyrazenie = wyrazenie;
-//        glebokosc = program.getBloki().lastElement().glebokosc;
-//        program.dodajInstrukcje(this);
     }
 
     @Override
