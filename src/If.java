@@ -1,5 +1,5 @@
 //import java.util.Vector;
-//public class If extends Blok {
+//public class If extends Instrukcja {
 //    protected int wart1;
 //    protected int wart2;
 //    protected boolean czyWykonywac;

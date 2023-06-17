@@ -1,7 +1,7 @@
 import java.util.Vector;
 
 public class WypiszWartosc extends Instrukcja{
-    Wyrazenie wyrazenie;
+    private Wyrazenie wyrazenie;
     public WypiszWartosc(Wyrazenie wyrazenie) {
         this.nazwaInstrukcji = "WypiszWartosc";
         this.wyrazenie = wyrazenie;

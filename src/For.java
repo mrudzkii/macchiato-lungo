@@ -1,33 +1,38 @@
-//import java.util.Vector;
-//public class For extends Blok{
-//    private char zmienna;
+import java.util.Vector;
+public class For extends Instrukcja{
+    private char zmienna;
 //    private char zmiennaKoniecZakresu;
-//    private Wyrazenie wyrazenie;
-//    private Zmienna iterator;
-//    private int ileRazy;
-//    private int ktoryObrot;
-//
-//    public For(char zmienna, Wyrazenie wyrazenie){
-//        super();
+    private Wyrazenie wyrazenie;
+    private Zmienna iterator;
+    private int ileRazy;
+    private boolean czyZainicjalizowano;
+    private int ktoryObrot;
+
+    private Blok blok; //#TODO: for ma po prostu blok tak jak procedura i jego sobie w petli wykonuje i wszystko smigga i zajebsicie
+                        //#TODO: czyli musze uproscic konstruktory, wykonaj, uruchom, mozliwe ze wyjebac czesc atrybutow
+                        //#TODO: przeciez ja bylem bardziej pijany piszac to niz teraz po 3 piwach XDDDDDDD
+
+    public For(char zmienna, Wyrazenie wyrazenie, Blok blok){
+        super();
+        this.nazwaInstrukcji = "For";
+        this.zmienna = zmienna;
+        this.wyrazenie = wyrazenie;
+        this.ktoryObrot = 0;
+        this.blok = blok;
+        this.czyZainicjalizowano = false;
+    }
+
+//    public For(Program program, char zmiennaIterator, char zmiennaKoniecZakresu){
+////        super(program);
 //        this.nazwaInstrukcji = "For";
 ////        poprzedniBlok = program.getBloki().elementAt(program.getBloki().size()-2);
-//        this.zmienna = zmienna;
-//        this.wyrazenie = wyrazenie;
-//        this.zadeklarowaneZmienne.add(new Pair<>(zmienna, new Literal(0)));
-//        this.ktoryObrot = 0;
-//    }
-//
-//    public For(Program program, char zmiennaIterator, char zmiennaKoniecZakresu){
-//        super(program);
-//        this.nazwaInstrukcji = "For";
-//        poprzedniBlok = program.getBloki().elementAt(program.getBloki().size()-2);
 //        this.zmienna = zmiennaIterator;
 //        this.zmiennaKoniecZakresu = zmiennaKoniecZakresu;
-//        this.zadeklarowaneZmienne.add(new Pair<>(zmiennaIterator, new Literal(0)));
+////        this.zadeklarowaneZmienne.add(new Pair<>(zmiennaIterator, new Literal(0)));
 //        this.ktoryObrot = 0;
 //        new PrzypiszWartosc(zmienna, new Dodawanie(zmienna, new Literal(1)));
 //    }
-//
+
 //    private boolean zainicjalizuj(){
 //        int wartosc;
 //        for (Pair<Character, Wyrazenie> para : zadeklarowaneZmienne){
@@ -77,9 +82,10 @@
 //        }
 //        return true;
 //    }
-//
-//    @Override
-//    protected boolean wykonaj(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+
+    @Override
+    protected boolean uruchom(Zmienne zmiennePoprzednie, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
+            BrakProceduryException, ZlaLiczbaParametrowException{
 //        boolean wykonano;
 //        wykonano = zainicjalizuj();
 //        if(!wykonano) return false;
@@ -100,11 +106,32 @@
 //                    return false;
 //            }
 //        }
-//        return true;
-//    }
-//
-//    @Override
-//    protected int step(Zmienne zmienneUseless) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion {
+        zmienne = new Zmienne();
+        int wartosc = wyrazenie.wylicz(zmiennePoprzednie);
+        ileRazy = wyrazenie.wylicz(zmiennePoprzednie);
+        for (Zmienna zmienna : zmiennePoprzednie.getVector()){
+            if (zmienna.getNazwa() == this.zmienna){
+                iterator = new Zmienna(this.zmienna, wartosc);
+                zmienne.dodajZmienna(iterator);
+            }else {
+                zmienne.dodajZmienna(zmienna);
+            }
+        }
+        for (int i = 0; i < ileRazy; i++) {
+            iterator.ustawWartosc(i);
+            blok.wykonaj(zmienne, procedury);
+        }
+        return true;
+    }
+
+    @Override
+    protected boolean wykonaj(Zmienne zmienne, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException {
+        return true;
+    }
+
+    @Override
+    protected int step(Zmienne zmiennePoprzednie, Procedury procedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
+            PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException {
 //        int wykonano;
 //        if(ktoraInstrukcja < 0){
 //            if (!zainicjalizuj()) {
@@ -144,5 +171,35 @@
 //        }
 //
 //        return 1;
-//    }
-//}
+        if(!czyZainicjalizowano){
+            zmienne = new Zmienne();
+            int wartosc = wyrazenie.wylicz(zmiennePoprzednie);
+            ileRazy = wyrazenie.wylicz(zmiennePoprzednie);
+            for (Zmienna zmienna : zmiennePoprzednie.getVector()){
+                if (zmienna.getNazwa() == this.zmienna){
+                    iterator = new Zmienna(this.zmienna, wartosc);
+                    iterator.ustawWartosc(0);
+                    zmienne.dodajZmienna(iterator);
+                }else {
+                    zmienne.dodajZmienna(zmienna);
+                }
+            }
+            czyZainicjalizowano = true;
+            return 0;
+        }
+        if(ktoryObrot < ileRazy) {
+            int wykonano = blok.step(zmienne, procedury);
+            if(wykonano == 1 && blok.ktoraInstrukcja == blok.getInstrukcje().size()) {
+                ktoryObrot++;
+                iterator.ustawWartosc(ktoryObrot);
+//                blok.ktoraInstrukcja = 0;
+            }
+            if(ktoryObrot == ileRazy)
+                return 1;
+            else{
+                return 0;
+            }
+        }
+        else return 1;
+    }
+}

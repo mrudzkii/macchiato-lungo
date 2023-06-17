@@ -188,9 +188,9 @@ public class Blok extends Instrukcja{
     protected int step(Zmienne wczesniejszeZmienne, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException, PodwojnaDekleracjaExcepion,
             BrakProceduryException, ZlaLiczbaParametrowException{
         int wykonano;
-        this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());
-        this.wczesniejszeProcedury.procedury = wczesniejszeProcedury.procedury; //#TODO getter setter
         if(ktoraInstrukcja < 0){
+            this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());
+            this.wczesniejszeProcedury.procedury = wczesniejszeProcedury.procedury; //#TODO getter setter
             if (!zainicjalizuj()) {
                 return -1;
             }
@@ -198,6 +198,8 @@ public class Blok extends Instrukcja{
             if(instrukcje.size() == 0 || getGlebokosc() == 0) return 1;
             return 0;
         }
+        if(ktoraInstrukcja == instrukcje.size())
+            ktoraInstrukcja = 0;
         else if(ktoraInstrukcja < instrukcje.size()) {
             Instrukcja i = instrukcje.elementAt(ktoraInstrukcja);
             try {
@@ -206,7 +208,6 @@ public class Blok extends Instrukcja{
                 if(wykonano == 1) ktoraInstrukcja++;
                 else if(wykonano == -1) return -1;
                 if(ktoraInstrukcja >= instrukcje.size()) {
-//                    ktoraInstrukcja = 0;
                     return 1;
                 }
                 return 0;

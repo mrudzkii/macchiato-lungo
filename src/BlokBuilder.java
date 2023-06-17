@@ -1,3 +1,4 @@
+import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 import java.util.Vector;
 
@@ -44,6 +45,16 @@ public class BlokBuilder {
         blok.setGlebokosc(glebokosc);
         zadeklarowaneBloki.add(blok);
         instrukcje.add(blok);
+        return this;
+    }
+
+    public BlokBuilder dodajFor(char zmienna, Wyrazenie wyrazenie, Blok blok){
+        instrukcje.add(new For(zmienna, wyrazenie, blok));
+        return this;
+    }
+
+    public BlokBuilder d00pa(){
+        instrukcje.add(new D00pa());
         return this;
     }
 

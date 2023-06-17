@@ -75,24 +75,24 @@ public class Main {
 //        ).build();
 //        program.uruchomBezDebugowania();
 
-        var πwoóəńąœęśæ = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
-                .zadeklarujZmienna('x', Literal.oWartosci(101))
-                .zadeklarujZmienna('y', Literal.oWartosci(1))
-                .zadeklarujProcedure("out", List.of('a'), new BlokBuilder()
-                        .wypiszWartosc(Dodawanie.wyrazen(Zmienna.oNazwie('a'), Zmienna.oNazwie('x'))).build())
-                .przypiszWartosc('x', Odejmowanie.wyrazen(Zmienna.oNazwie('x'), Zmienna.oNazwie('y')))
-//                .wypiszWartosc(Zmienna.oNazwie('x'))
-                .wywolajProcedure("out", List.of(Zmienna.oNazwie('x')))
-                .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
-//                .wywolajProcedure("out", List.of(Literal.oWartosci(21), Literal.oWartosci(37)))
-//                .wywolajProcedure("blednaNazwa", List.of(Literal.oWartosci(69)))
-                .blok(new BlokBuilder()
-                        .zadeklarujZmienna('x', Literal.oWartosci(10))
-                        .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
-                        .build())
-        ).build();
-//        πwoóəńąœęśæ.uruchomBezDebugowania();
-        πwoóəńąœęśæ.uruchomZOdpluskiwaniem();
+//        var πwoóəńąœęśæ = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+//                .zadeklarujZmienna('x', Literal.oWartosci(101))
+//                .zadeklarujZmienna('y', Literal.oWartosci(1))
+//                .zadeklarujProcedure("out", List.of('a'), new BlokBuilder()
+//                        .wypiszWartosc(Dodawanie.wyrazen(Zmienna.oNazwie('a'), Zmienna.oNazwie('x'))).build())
+//                .przypiszWartosc('x', Odejmowanie.wyrazen(Zmienna.oNazwie('x'), Zmienna.oNazwie('y')))
+////                .wypiszWartosc(Zmienna.oNazwie('x'))
+//                .wywolajProcedure("out", List.of(Zmienna.oNazwie('x')))
+//                .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
+////                .wywolajProcedure("out", List.of(Literal.oWartosci(21), Literal.oWartosci(37)))
+////                .wywolajProcedure("blednaNazwa", List.of(Literal.oWartosci(69)))
+//                .blok(new BlokBuilder()
+//                        .zadeklarujZmienna('x', Literal.oWartosci(10))
+//                        .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
+//                        .build())
+//        ).build();
+////        πwoóəńąœęśæ.uruchomBezDebugowania();
+//        πwoóəńąœęśæ.uruchomZOdpluskiwaniem();
 
 //        var piwo = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
 //                        .zadeklarujZmienna('x', Literal.oWartosci(10))
@@ -108,5 +108,15 @@ public class Main {
 //                ).build();
 ////            piwo.uruchomBezDebugowania();
 //            piwo.uruchomZOdpluskiwaniem();
+
+        var tesFora = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+                .zadeklarujZmienna('x', Literal.oWartosci(3))
+                .dodajFor('x', Literal.oWartosci(5), new BlokBuilder()
+                        .wypiszWartosc(Zmienna.oNazwie('x'))
+                        .d00pa().build()
+        )).build();
+
+//        tesFora.uruchomBezDebugowania();
+        tesFora.uruchomZOdpluskiwaniem();
     }
 }
