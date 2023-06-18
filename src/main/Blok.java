@@ -129,7 +129,7 @@ public class Blok extends Instrukcja{
     protected boolean wykonaj(Zmienne wczesniejszeZmienne, Procedury wczesniejszeProcedury) throws BrakZmiennejException, DzieleniePrzezZeroException,
             PodwojnaDekleracjaExcepion, BrakProceduryException, ZlaLiczbaParametrowException, PodwojnaDeklaracjaProceduryException{
         this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());
-        this.wczesniejszeProcedury.procedury = wczesniejszeProcedury.procedury; //#TODO getter setter
+        this.wczesniejszeProcedury.setProcedury(wczesniejszeProcedury.getProcedury());
         boolean wykonano = zainicjalizuj();
         if(!wykonano) return false;
         wykonano = false;
@@ -161,7 +161,7 @@ public class Blok extends Instrukcja{
         int wykonano;
         if(ktoraInstrukcja < 0){
             this.wczesniejszeZmienne.setZmienne(wczesniejszeZmienne.getVector());
-            this.wczesniejszeProcedury.procedury = wczesniejszeProcedury.procedury; //#TODO getter setter
+            this.wczesniejszeProcedury.setProcedury(wczesniejszeProcedury.getProcedury());
             if (!zainicjalizuj()) {
                 return -1;
             }

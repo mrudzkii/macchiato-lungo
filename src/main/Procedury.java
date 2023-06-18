@@ -11,6 +11,10 @@ public class Procedury {
         return procedury;
     }
 
+    public void setProcedury(Vector<Procedura> procedury) {
+        this.procedury = procedury;
+    }
+
     public boolean czyIstnieje(String nazwa) {
         for (Procedura p : procedury) {
             if (p.getNazwa() == nazwa)
