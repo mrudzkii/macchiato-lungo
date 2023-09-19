@@ -60,11 +60,6 @@ public class BlokBuilder {
         return this;
     }
 
-    public BlokBuilder d00pa(){
-        instrukcje.add(new D00pa());
-        return this;
-    }
-
 
     public BlokBuilder zadeklarujProcedure(String nazwa, List<Character> parametry, Blok blok){
         procedury.dodajProcedure(new Procedura(nazwa, parametry, blok));

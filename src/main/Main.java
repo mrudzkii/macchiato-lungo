@@ -3,7 +3,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        var πwoóəńąœęśæ = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
+        var przyklad = new ProgramBuilder().blokZewnetrzny(new BlokBuilder()
                 .zadeklarujZmienna('x', Literal.oWartosci(101))
                 .zadeklarujZmienna('y', Literal.oWartosci(1))
                 .zadeklarujProcedure("out", List.of('a'), new BlokBuilder()
@@ -16,7 +16,7 @@ public class Main {
                         .wywolajProcedure("out", List.of(Literal.oWartosci(100)))
                         .build())
         ).build();
-//        πwoóəńąœęśæ.uruchomBezDebugowania();
-        πwoóəńąœęśæ.uruchomZOdpluskiwaniem();
+//        przyklad.uruchomBezDebugowania();
+        przyklad.uruchomZOdpluskiwaniem();
     }
 }
